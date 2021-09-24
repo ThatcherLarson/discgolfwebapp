@@ -1,9 +1,8 @@
 var express = require('express');
-var router = express.Router();
+const pool = require("./db");
+const app = express()
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
-module.exports = router;
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`)
+})
