@@ -9,3 +9,13 @@ CREATE TABLE discs(
     turn decimal(3, 1),
     fade decimal(3, 1)
 );
+
+--placeholder statement for eventual users down the road
+CREATE TABLE users(
+    user_id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    salt TEXT NOT NULL,
+    pass TEXT NOT NULL,
+    date_created DATE NOT NULL DEFAULT CURRENT_DATE
+)
