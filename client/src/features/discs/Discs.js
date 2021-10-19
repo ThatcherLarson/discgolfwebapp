@@ -4,6 +4,7 @@ import {
   addDisc,
   removeDisc,
   getDiscs,
+  discsSelector
 } from './discsSlice';
 import styles from './Discs.module.css';
 
@@ -12,6 +13,8 @@ const url = 'http://localhost:5000'
 export function Discs() {
   
   //const count = useSelector(selectCount);
+
+  const { discsList } = useSelector(discsSelector)
 
   const dispatch = useDispatch();
 
@@ -24,9 +27,18 @@ export function Discs() {
 
   // const incrementValue = Number(incrementAmount) || 0;
 
+  const renderDiscs = () => {
+    return discsList.map(disc =>
+      <div key={disc.disc_id} className='tile'>
+        <h2>{disc.brand} {disc.mold}</h2>
+      </div>
+    )
+  }
+
   return (
     <div>
       <div className={styles.row}>
+        
         <button
           className={styles.button}
           aria-label="Remove disc"
@@ -34,6 +46,7 @@ export function Discs() {
         >
           -
         </button>
+
         <span className={styles.value}>Discs!</span>
         <button
           className={styles.button}
@@ -43,6 +56,10 @@ export function Discs() {
           +
         </button>
       </div>
+
+      <div>
+        {renderDiscs()}
+      </div> 
     </div>
   );
 }
