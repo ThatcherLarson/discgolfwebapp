@@ -23,7 +23,7 @@ export const discsSlice = createSlice({
       return state.discsList.filter((disc) => disc.id !== action.payload)
     },
     getDiscs: (state, action) => {
-      console.log("Getting initial list of Discs")
+      console.log("Getting list of Discs")
       state.discsList = action.payload
     },
   },

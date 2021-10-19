@@ -1,15 +1,22 @@
 import React from "react";
 import { Discs } from "./features/discs/Discs";
+import { Sidebar } from "./components/Sidebar";
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="https://images.squarespace-cdn.com/content/v1/5d1e6e2fef1a47000197d985/1571604435005-DWHOQ5PONXPEZOOM66HM/Disc+Golf.png" className="App-logo" alt="logo" />
-        <Discs />
-        <p>Updates coming soon.</p>
-      </header>
+    <div>
+      <div class="container-fluid no-padding">
+        <div class="row">
+          <div class="col-3">
+            <Sidebar />
+          </div>
+          <div class="col-9">
+            <Discs />
+          </div>
+        </div>
+      </div>
+      <p class="pt-5 text-center">Updates coming soon.</p>
     </div>
   );
 }
