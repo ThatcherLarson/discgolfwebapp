@@ -15,8 +15,8 @@ export const discsSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.discsList.concat(action.payload)
-      console.log("Added a disc!")
+      state.discsList.push(action.payload)
+      console.log("Added a disc: " + action.payload)
     },
     removeDisc: (state, action) => {
       console.log("Removed a disc!")

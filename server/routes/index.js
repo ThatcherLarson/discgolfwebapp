@@ -31,9 +31,11 @@ app.post("/discs", async (req, res) => {
       "INSERT INTO discs (brand, mold, speed, glide, turn, fade) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
       [brand, mold, speed, glide, turn, fade]
     );
-    res.sendStatus(200)
+    //res.sendStatus(200)
+    res.json(newDisc.rows)
   } catch (error) {
     console.error(error.message);
+    res.sendStatus(400)
   }
 });
 

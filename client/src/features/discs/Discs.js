@@ -30,7 +30,7 @@ export function Discs() {
     dispatch(fetchDiscs());
   }, [dispatch]);
 
-  const handleSaveClose = async() => {
+  const handleSaveClose = async () => {
     try {
       const body = { brand, mold, speed, glide, turn, fade };
       const response = await fetch("http://localhost:5000/discs", {
@@ -40,18 +40,21 @@ export function Discs() {
         },
         body: JSON.stringify(body),
       });
+      console.log(response)
+      if (response.status === 400) {
+        console.log("Disc already exists or not all fields are filled out.");
+      } else {
+        const data = await response.json();
 
-      //if we can't access 'id' field in response might consider getting rid of field and making mold the pk
+        console.log(data[0]);
+        dispatch(addDisc(data[0]));
 
-      console.log(response.json()); //test both JSON strinify and .json here to try to get ID
-      console.log(body);
-      dispatch(fetchDiscs()) //should get addDisc working here..not sure how to handle the ID
-      setShow(false)
-      
+        setShow(false);
+      }
     } catch (error) {
       console.error(error.message);
     }
-  }
+  };
 
   const renderAddDiscModal = () => {
     return (
@@ -63,7 +66,10 @@ export function Discs() {
           <Form>
             <Form.Group class="pt-2" controlId="formMfg">
               <Form.Label>Manufacturer</Form.Label>
-              <Form.Control as="select" onChange={(e) => setBrand(e.target.value)}>
+              <Form.Control
+                as="select"
+                onChange={(e) => setBrand(e.target.value)}
+              >
                 <option>Choose a brand</option>
                 <option>Discraft</option>
                 <option>Innova</option>
@@ -75,7 +81,7 @@ export function Discs() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              value = {mold}
+              value={mold}
               onChange={(e) => setMold(e.target.value)}
             >
               <Form.Label>Disc Name</Form.Label>
@@ -91,7 +97,7 @@ export function Discs() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              value = {speed}
+              value={speed}
               onChange={(e) => setSpeed(e.target.value)}
             >
               <Form.Label>Speed</Form.Label>
@@ -100,7 +106,6 @@ export function Discs() {
                   type="number"
                   placeholder="keyword search"
                   autoComplete="off"
-                  
                 />
               </div>
             </Form.Group>
@@ -108,7 +113,7 @@ export function Discs() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              value = {glide}
+              value={glide}
               onChange={(e) => setGlide(e.target.value)}
             >
               <Form.Label>Glide</Form.Label>
@@ -124,7 +129,7 @@ export function Discs() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              value = {turn}
+              value={turn}
               onChange={(e) => setTurn(e.target.value)}
             >
               <Form.Label>Turn</Form.Label>
@@ -140,7 +145,7 @@ export function Discs() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              value = {fade}
+              value={fade}
               onChange={(e) => setFade(e.target.value)}
             >
               <Form.Label>Fade</Form.Label>
