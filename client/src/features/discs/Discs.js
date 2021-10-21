@@ -43,7 +43,7 @@ export function Discs() {
 
       //if we can't access 'id' field in response might consider getting rid of field and making mold the pk
 
-      console.log(JSON.stringify(response)); //test this stringified json, see if we can access added object payload
+      console.log(response.json()); //test both JSON strinify and .json here to try to get ID
       console.log(body);
       dispatch(fetchDiscs()) //should get addDisc working here..not sure how to handle the ID
       setShow(false)
