@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Accordion, Button } from "react-bootstrap";
+import { Accordion, Button, Modal, Form } from "react-bootstrap";
 import { addDisc, removeDisc, getDiscs, discsSelector } from "./discsSlice";
 import styles from "./Discs.module.css";
 
@@ -8,6 +8,18 @@ const url = "http://localhost:5000";
 
 export function Discs() {
   //const count = useSelector(selectCount);
+
+  const [show, setShow] = useState(false);
+
+  const [brand, setBrand] = useState();
+  const [mold, setMold] = useState();
+  const [speed, setSpeed] = useState();
+  const [glide, setGlide] = useState();
+  const [turn, setTurn] = useState();
+  const [fade, setFade] = useState();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const { discsList } = useSelector(discsSelector);
 
@@ -18,50 +30,176 @@ export function Discs() {
     dispatch(fetchDiscs());
   }, [dispatch]);
 
-  // const [incrementAmount, setIncrementAmount] = useState('2');
+  const handleSaveClose = async() => {
+    try {
+      const body = { brand, mold, speed, glide, turn, fade };
+      const response = await fetch("http://localhost:5000/discs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
-  // const incrementValue = Number(incrementAmount) || 0;
+      //if we can't access 'id' field in response might consider getting rid of field and making mold the pk
+
+      console.log(JSON.stringify(response)); //test this stringified json, see if we can access added object payload
+      console.log(body);
+      dispatch(fetchDiscs()) //should get addDisc working here..not sure how to handle the ID
+      setShow(false)
+      
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  const renderAddDiscModal = () => {
+    return (
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Disc</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group class="pt-2" controlId="formMfg">
+              <Form.Label>Manufacturer</Form.Label>
+              <Form.Control as="select" onChange={(e) => setBrand(e.target.value)}>
+                <option>Choose a brand</option>
+                <option>Discraft</option>
+                <option>Innova</option>
+                <option>Discmania</option>
+                <option>MVP</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group
+              class="pt-2"
+              controlId="formKeywords"
+              value = {mold}
+              onChange={(e) => setMold(e.target.value)}
+            >
+              <Form.Label>Disc Name</Form.Label>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <Form.Control
+                  type="text"
+                  placeholder="keyword search"
+                  autoComplete="off"
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group
+              class="pt-2"
+              controlId="formKeywords"
+              value = {speed}
+              onChange={(e) => setSpeed(e.target.value)}
+            >
+              <Form.Label>Speed</Form.Label>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <Form.Control
+                  type="number"
+                  placeholder="keyword search"
+                  autoComplete="off"
+                  
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group
+              class="pt-2"
+              controlId="formKeywords"
+              value = {glide}
+              onChange={(e) => setGlide(e.target.value)}
+            >
+              <Form.Label>Glide</Form.Label>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <Form.Control
+                  type="number"
+                  placeholder="keyword search"
+                  autoComplete="off"
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group
+              class="pt-2"
+              controlId="formKeywords"
+              value = {turn}
+              onChange={(e) => setTurn(e.target.value)}
+            >
+              <Form.Label>Turn</Form.Label>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <Form.Control
+                  type="number"
+                  placeholder="keyword search"
+                  autoComplete="off"
+                />
+              </div>
+            </Form.Group>
+
+            <Form.Group
+              class="pt-2"
+              controlId="formKeywords"
+              value = {fade}
+              onChange={(e) => setFade(e.target.value)}
+            >
+              <Form.Label>Fade</Form.Label>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <Form.Control
+                  type="number"
+                  placeholder="keyword search"
+                  autoComplete="off"
+                />
+              </div>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSaveClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
 
   const renderDiscs = () => {
-    return discsList.map(
-      (disc) => (
-        <Accordion>
-          <Accordion.Item eventKey={disc.disc_id}>
-            <Accordion.Header>
-              <strong>{disc.brand} {disc.mold}</strong> 
-            </Accordion.Header>
-            <Accordion.Body>Speed: {disc.speed}</Accordion.Body>
-            <Accordion.Body>Glide: {disc.glide}</Accordion.Body>
-            <Accordion.Body>Turn: {disc.turn}</Accordion.Body>
-            <Accordion.Body>Fade: {disc.fade}</Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      )
-    );
+    return discsList.map((disc) => (
+      <Accordion>
+        <Accordion.Item eventKey={disc.disc_id}>
+          <Accordion.Header>
+            <strong>
+              {disc.brand} {disc.mold}
+            </strong>
+          </Accordion.Header>
+          <Accordion.Body>Speed: {disc.speed}</Accordion.Body>
+          <Accordion.Body>Glide: {disc.glide}</Accordion.Body>
+          <Accordion.Body>Turn: {disc.turn}</Accordion.Body>
+          <Accordion.Body>Fade: {disc.fade}</Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+    ));
   };
 
   return (
     <div>
       <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Remove disc"
-          onClick={() => dispatch(removeDisc())}
-        >
-          -
-        </button>
-
         <span className={styles.value}>Discs!</span>
         <button
           className={styles.button}
           aria-label="Add disc"
-          onClick={() => dispatch(addDisc())}
+          data-toggle="modal"
+          data-target="#addDiscModal"
+          onClick={() => handleShow()}
         >
-          +
+          Add Disc
         </button>
+        {renderAddDiscModal()}
       </div>
-
-      <div>{renderDiscs()}</div>
+      {renderDiscs()}
     </div>
   );
 }

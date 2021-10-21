@@ -6,10 +6,12 @@ export function Sidebar() {
     <div>
       <Card>
         <Card.Body>
-          <Card.Title class='text-center'><strong>Search and Filter</strong></Card.Title>
+          <Card.Title class="text-center">
+            <strong>Search and Filter</strong>
+          </Card.Title>
           <Form>
             <Form.Group
-            class='pt-2' 
+              class="pt-2"
               controlId="formKeywords"
               onKeyDown={(e) => console.log()}
               onChange={() => console.log()}
@@ -24,7 +26,7 @@ export function Sidebar() {
               </div>
             </Form.Group>
 
-            <Form.Group class='pt-2' controlId="formMfg">
+            <Form.Group class="pt-2" controlId="formMfg">
               <Form.Label>Manufacturer</Form.Label>
               <Form.Control as="select" onClick={() => console.log()}>
                 <option>Choose a brand</option>
@@ -35,7 +37,7 @@ export function Sidebar() {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group class='pt-2' controlId="formType">
+            <Form.Group class="pt-2" controlId="formType">
               <Form.Label>Type</Form.Label>
               <Form.Control as="select" onClick={() => console.log()}>
                 <option>Choose a type</option>
@@ -46,7 +48,7 @@ export function Sidebar() {
               </Form.Control>
             </Form.Group>
 
-            <div class='pt-2'  style={{ display: "flex", flexDirection: "row" }}>
+            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minSpeed"
                 onChange={() => console.log()}
@@ -82,7 +84,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class='pt-2' style={{ display: "flex", flexDirection: "row" }}>
+            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minGlide"
                 onChange={() => console.log()}
@@ -118,7 +120,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class='pt-2' style={{ display: "flex", flexDirection: "row" }}>
+            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minTurn"
                 onChange={() => console.log()}
@@ -154,7 +156,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class='pt-2' style={{ display: "flex", flexDirection: "row" }}>
+            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minFade"
                 onChange={() => console.log()}
