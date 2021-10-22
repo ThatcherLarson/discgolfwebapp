@@ -1,7 +1,51 @@
-import React from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getDiscs,
+  stateSelector,
+  setMinSpeed,
+  setMaxSpeed,
+  setMinGlide,
+  setMaxGlide,
+  setMinTurn,
+  setMaxTurn,
+  setMinFade,
+  setMaxFade,
+  setManufacturer,
+  setSearchFilter,
+} from "../features/discs/discsSlice";
 
 export function Sidebar() {
+  const dispatch = useDispatch();
+
+  const {
+    minSpeed,
+    maxSpeed,
+    minGlide,
+    maxGlide,
+    minTurn,
+    maxTurn,
+    minFade,
+    maxFade,
+    manufacturer,
+    searchFilter,
+  } = useSelector(stateSelector);
+
+  const handleClearFilters = () => {
+      //not sure why the values dont clear from sidebar, research 'ref' with forms?
+    dispatch(setSearchFilter(""));
+    dispatch(setManufacturer(""));
+    dispatch(setMinSpeed(0));
+    dispatch(setMaxSpeed(20));
+    dispatch(setMinGlide(0));
+    dispatch(setMaxGlide(20));
+    dispatch(setMinTurn(-20));
+    dispatch(setMaxTurn(20));
+    dispatch(setMinFade(-20));
+    dispatch(setMaxFade(20));
+  }
+
   return (
     <div>
       <Card>
@@ -13,8 +57,8 @@ export function Sidebar() {
             <Form.Group
               class="pt-2"
               controlId="formKeywords"
-              onKeyDown={(e) => console.log()}
-              onChange={() => console.log()}
+              value={searchFilter}
+              onChange={(e) => dispatch(setSearchFilter(e.target.value))}
             >
               <Form.Label>Search</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -28,7 +72,10 @@ export function Sidebar() {
 
             <Form.Group class="pt-2" controlId="formMfg">
               <Form.Label>Manufacturer</Form.Label>
-              <Form.Control as="select" onClick={() => console.log()}>
+              <Form.Control
+                as="select"
+                onChange={(e) => dispatch(setManufacturer(e.target.value))}
+              >
                 <option>Choose a brand</option>
                 <option>Discraft</option>
                 <option>Innova</option>
@@ -37,22 +84,11 @@ export function Sidebar() {
               </Form.Control>
             </Form.Group>
 
-            <Form.Group class="pt-2" controlId="formType">
-              <Form.Label>Type</Form.Label>
-              <Form.Control as="select" onClick={() => console.log()}>
-                <option>Choose a type</option>
-                <option>Driver</option>
-                <option>Fairway</option>
-                <option>Midrange</option>
-                <option>Putter</option>
-              </Form.Control>
-            </Form.Group>
-
             <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minSpeed"
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMinSpeed(e.target.value))}
+                value={minSpeed}
               >
                 <Form.Label>Speed</Form.Label>
                 <Form.Control
@@ -73,8 +109,8 @@ export function Sidebar() {
               <Form.Group
                 controlId="maxSpeed"
                 style={{ marginTop: "32px" }}
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMaxSpeed(e.target.value))}
+                value={maxSpeed}
               >
                 <Form.Control
                   type="text"
@@ -87,8 +123,8 @@ export function Sidebar() {
             <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minGlide"
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMinGlide(e.target.value))}
+                value={minGlide}
               >
                 <Form.Label>Glide</Form.Label>
                 <Form.Control
@@ -109,8 +145,8 @@ export function Sidebar() {
               <Form.Group
                 controlId="maxGlide"
                 style={{ marginTop: "32px" }}
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMaxGlide(e.target.value))}
+                value={maxGlide}
               >
                 <Form.Control
                   type="text"
@@ -123,8 +159,8 @@ export function Sidebar() {
             <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minTurn"
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMinTurn(e.target.value))}
+                value={minTurn}
               >
                 <Form.Label>Turn</Form.Label>
                 <Form.Control
@@ -145,8 +181,8 @@ export function Sidebar() {
               <Form.Group
                 controlId="maxTurn"
                 style={{ marginTop: "32px" }}
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMaxTurn(e.target.value))}
+                value={maxTurn}
               >
                 <Form.Control
                   type="text"
@@ -159,8 +195,8 @@ export function Sidebar() {
             <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minFade"
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMinFade(e.target.value))}
+                value={minFade}
               >
                 <Form.Label>Fade</Form.Label>
                 <Form.Control
@@ -181,8 +217,8 @@ export function Sidebar() {
               <Form.Group
                 controlId="maxFade"
                 style={{ marginTop: "32px" }}
-                onChange={() => console.log()}
-                onKeyDown={(e) => console.log()}
+                onChange={(e) => dispatch(setMaxFade(e.target.value))}
+                value={maxFade}
               >
                 <Form.Control
                   type="text"
@@ -193,7 +229,7 @@ export function Sidebar() {
             </div>
           </Form>
           <br />
-          <Button variant="danger" onClick={() => console.log()}>
+          <Button variant="danger" onClick={() => handleClearFilters()}>
             Clear Filters
           </Button>
         </Card.Body>

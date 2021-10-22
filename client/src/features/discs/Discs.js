@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Accordion, Button, Modal, Form } from "react-bootstrap";
-import { addDisc, removeDisc, getDiscs, discsSelector } from "./discsSlice";
+import { addDisc, removeDisc, getDiscs, stateSelector, discsFilterSelector } from "./discsSlice";
 import styles from "./Discs.module.css";
 
 const url = "http://localhost:5000";
 
 export function Discs() {
-  //const count = useSelector(selectCount);
 
   const [show, setShow] = useState(false);
 
@@ -21,7 +20,7 @@ export function Discs() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { discsList } = useSelector(discsSelector);
+  const discsList = useSelector(discsFilterSelector);
 
   const dispatch = useDispatch();
 
@@ -104,7 +103,7 @@ export function Discs() {
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <Form.Control
                   type="number"
-                  placeholder="keyword search"
+                  placeholder="Set speed"
                   autoComplete="off"
                 />
               </div>
