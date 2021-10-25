@@ -1,6 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
-import memoize from "lodash.memoize";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   discsList: [],
@@ -94,7 +92,7 @@ export const {
   setMinFade,
   setMaxFade,
   setManufacturer,
-  setSearchFilter
+  setSearchFilter,
 } = discsSlice.actions;
 
 export const stateSelector = (state) => state.discs;

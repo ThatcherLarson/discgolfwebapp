@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Accordion, Button, Modal, Form } from "react-bootstrap";
-import { addDisc, removeDisc, getDiscs, stateSelector, discsFilterSelector } from "./discsSlice";
+import {
+  addDisc,
+  removeDisc,
+  getDiscs,
+  stateSelector,
+  discsFilterSelector,
+} from "./discsSlice";
 import styles from "./Discs.module.css";
 
 const url = "http://localhost:5000";
 
 export function Discs() {
-
   const [show, setShow] = useState(false);
 
   const [brand, setBrand] = useState();
@@ -39,7 +44,7 @@ export function Discs() {
         },
         body: JSON.stringify(body),
       });
-      console.log(response)
+      console.log(response);
       if (response.status === 400) {
         console.log("Disc already exists or not all fields are filled out.");
       } else {

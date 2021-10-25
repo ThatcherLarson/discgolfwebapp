@@ -33,7 +33,7 @@ export function Sidebar() {
   } = useSelector(stateSelector);
 
   const handleClearFilters = () => {
-      //not sure why the values dont clear from sidebar, research 'ref' with forms?
+    //not sure why the values dont clear from sidebar, research 'ref' with forms?
     dispatch(setSearchFilter(""));
     dispatch(setManufacturer(""));
     dispatch(setMinSpeed(0));
@@ -44,7 +44,7 @@ export function Sidebar() {
     dispatch(setMaxTurn(20));
     dispatch(setMinFade(-20));
     dispatch(setMaxFade(20));
-  }
+  };
 
   return (
     <div>
