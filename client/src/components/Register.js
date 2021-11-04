@@ -1,9 +1,10 @@
 import React from "react";
 import Login from "./Login";
 import { Card, Form, Button, Stack } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
 
 function Register() {
-
+  let navigate = useNavigate();
 
   return (
     <div
@@ -17,7 +18,7 @@ function Register() {
       <Card>
         <Card.Body>
           <Card.Title style={{ fontSize: "36px" }} class="text-center">
-            <strong>Sign in</strong>
+            <strong>Register</strong>
           </Card.Title>
           <Form>
             <Form.Group
@@ -70,10 +71,11 @@ function Register() {
           </Form>
           <br />
           <Stack direction="horizontal" gap={3}>
-           
             <Button variant="secondary">Register</Button>
             <div className="vr" />
-            <Button variant="outline-danger" onClick={console.log()}>Back</Button>
+            <Button variant="outline-danger" onClick={() => navigate("/login")}>
+              Back
+            </Button>
           </Stack>
         </Card.Body>
       </Card>

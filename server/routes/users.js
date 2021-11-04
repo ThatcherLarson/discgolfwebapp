@@ -60,8 +60,8 @@ app.delete("/users/:user_id", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`App listening at http://localhost:${port}`);
+// });
 
 module.exports = router;

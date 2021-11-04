@@ -2,9 +2,11 @@ import React from "react";
 import Register from "./Register";
 import Home from "./Home";
 import { Card, Form, Button, Stack } from "react-bootstrap";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
+  let navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -54,9 +56,17 @@ function Login() {
           </Form>
           <br />
           <Stack direction="horizontal" gap={3}>
-            <Button variant="secondary">Submit</Button>
+            <Button variant="secondary" onClick={() => navigate("/home")}>
+              Submit
+            </Button>
             <div className="vr" />
-            <Button variant="outline-danger">Register</Button>
+            <Button
+              variant="outline-danger"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </Button>
+            {/* <Link to="/register">Register</Link> */}
           </Stack>
         </Card.Body>
       </Card>
