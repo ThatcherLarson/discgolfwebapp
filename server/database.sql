@@ -72,3 +72,6 @@ WHERE speed >= 4 and speed<=6;
 
 ALTER TABLE discs
 ALTER COLUMN "type" SET NOT NULL;
+
+ALTER TABLE users
+DROP COLUMN salt;

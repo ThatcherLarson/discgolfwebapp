@@ -5,11 +5,11 @@ const app = express();
 const port = 5000;
 var cors = require("cors");
 
-app.use(cors());
-app.use(express.json());
+router.use(cors());
+router.use(express.json());
 
 //get all discs
-app.get("/discs", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const allDiscs = await pool.query("SELECT * FROM discs");
     res.json(allDiscs.rows);
@@ -19,7 +19,7 @@ app.get("/discs", async (req, res) => {
 });
 
 //add a disc
-app.post("/discs", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { brand, mold, type, speed, glide, turn, fade } = req.body;
 
@@ -38,7 +38,7 @@ app.post("/discs", async (req, res) => {
 });
 
 // get a disc
-app.get("/discs/:disc_id", async (req, res) => {
+router.get("/:disc_id", async (req, res) => {
   try {
     const disc_id = req.params.disc_id;
     const disc = await pool.query("SELECT * FROM discs WHERE disc_id = $1", [
@@ -51,7 +51,7 @@ app.get("/discs/:disc_id", async (req, res) => {
 });
 
 //update a disc
-app.put("/discs/:disc_id", async (req, res) => {
+router.put("/:disc_id", async (req, res) => {
   try {
     const { disc_id } = req.params;
     const { brand, mold, type, speed, glide, fade, turn } = req.body;
@@ -67,7 +67,7 @@ app.put("/discs/:disc_id", async (req, res) => {
 });
 
 //remove a disc
-app.delete("/discs/:disc_id", async (req, res) => {
+router.delete("/:disc_id", async (req, res) => {
   try {
     const { disc_id } = req.params;
     const deleteTodo = await pool.query(
@@ -78,10 +78,6 @@ app.delete("/discs/:disc_id", async (req, res) => {
   } catch (error) {
     console.error(error.message);
   }
-});
-
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
 });
 
 module.exports = router;

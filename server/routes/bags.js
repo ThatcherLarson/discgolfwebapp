@@ -1,15 +1,15 @@
 const express = require("express");
 const pool = require("./db");
 const router = express.Router();
-const app = express();
+//const app = express();
 const port = 5000;
 var cors = require("cors");
 
-app.use(cors());
-app.use(express.json());
+router.use(cors());
+router.use(express.json());
 
 //get all discs
-app.get("/discs", async (req, res) => {
+router.get("/discs", async (req, res) => {
   try {
     const allDiscs = await pool.query("SELECT * FROM discs");
     res.json(allDiscs.rows);
@@ -19,7 +19,7 @@ app.get("/discs", async (req, res) => {
 });
 
 //add bag for user
-app.post("/bags", async (req, res) => {
+router.post("/bags", async (req, res) => {
   try {
     const { user_id } = req.body;
 
@@ -38,7 +38,7 @@ app.post("/bags", async (req, res) => {
 });
 
 //remove a bag
-app.delete("/bags/:bag_id", async (req, res) => {
+router.delete("/bags/:bag_id", async (req, res) => {
   try {
     const { bag_id } = req.params;
     const deleteBag = await pool.query(
@@ -51,8 +51,6 @@ app.delete("/bags/:bag_id", async (req, res) => {
   }
 });
 
-// app.listen(port, () => {
-//   console.log(`App listening at http://localhost:${port}`);
-// });
+
 
 module.exports = router;

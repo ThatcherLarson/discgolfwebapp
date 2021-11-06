@@ -3,39 +3,91 @@
 const express = require("express");
 const pool = require("./db");
 const router = express.Router();
-const app = express();
+//const app = express();
 const port = 5000;
-var cors = require("cors");
 
-app.use(cors());
-app.use(express.json());
+//password encryption
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
+var cors = require("cors");
+const app = require("../app");
+
+router.use(cors());
+router.use(express.json());
+
+//get all users (for testing)
+router.get("/", async (req, res) => {
+  try {
+    const allUsers = await pool.query("SELECT * FROM users");
+    res.json(allUsers.rows);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 //create user
-app.post("/users", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { name, email, pass } = req.body;
 
-    //figure out salt and bcrypt here
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(pass, salt, async function (err, hash) {
+        const newUser = await pool.query(
+          "INSERT INTO users (name, email, pass) VALUES($1, $2, $3) RETURNING *",
+          [name, email, hash]
+        );
 
-    console.log(req.body);
+        console.log(req.body);
 
-    const newUser = await pool.query(
-      "INSERT INTO users (name, email, pass, salt) VALUES($1, $2, $3, $4) RETURNING *", 
-      [name, email, pass, salt]
-    );
-    //res.sendStatus(200)
-    res.json(newUser.rows);
+        res.sendStatus(200);
+        res.json(newUser.rows);
+      });
+    });
   } catch (error) {
     console.error(error.message);
     res.sendStatus(400);
   }
 });
 
+// login
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await pool.query(
+      "SELECT * FROM users WHERE email = $1 LIMIT 1",
+      [email]
+    );
+
+    userData = user.rows[0];
+
+    console.log(userData);
+
+    // maybe work on these confusing pass/password variables
+    const { pass } = userData;
+
+    if (userData) {
+      const validPassword = await bcrypt.compare(password, pass);
+      if (validPassword) {
+        res.status(200).json({ message: "Valid password" });
+      } else {
+        res.status(400).json({ error: "Invalid Password" });
+      }
+    } else {
+      res.status(401).json({ error: "User does not exist" });
+    }
+    //res.json(user.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 //update a user
-app.put("/users/:user_id", async (req, res) => {
+router.put("/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
-    const { name, email } = req.body; 
+    const { name, email } = req.body;
 
     //fix this for user
     const updateUser = await pool.query(
@@ -49,7 +101,7 @@ app.put("/users/:user_id", async (req, res) => {
 });
 
 //remove a user
-app.delete("/users/:user_id", async (req, res) => {
+router.delete("/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
     const deleteUser = await pool.query(
@@ -61,9 +113,5 @@ app.delete("/users/:user_id", async (req, res) => {
     console.error(error.message);
   }
 });
-
-// app.listen(port, () => {
-//   console.log(`App listening at http://localhost:${port}`);
-// });
 
 module.exports = router;
