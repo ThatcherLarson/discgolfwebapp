@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Accordion, Button, Modal, Form } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
 import {
   addDisc,
   removeDisc,
@@ -17,6 +18,7 @@ export function Discs() {
 
   const [brand, setBrand] = useState();
   const [mold, setMold] = useState();
+  const [type, setType] = useState();
   const [speed, setSpeed] = useState();
   const [glide, setGlide] = useState();
   const [turn, setTurn] = useState();
@@ -28,6 +30,7 @@ export function Discs() {
   const discsList = useSelector(discsFilterSelector);
 
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   // dispatch our thunk when component first mounts
   useEffect(() => {
@@ -36,7 +39,7 @@ export function Discs() {
 
   const handleSaveClose = async () => {
     try {
-      const body = { brand, mold, speed, glide, turn, fade };
+      const body = { brand, mold, type, speed, glide, turn, fade };
       const response = await fetch("http://localhost:5000/discs", {
         method: "POST",
         headers: {
@@ -96,6 +99,20 @@ export function Discs() {
                   autoComplete="off"
                 />
               </div>
+            </Form.Group>
+
+            <Form.Group class="pt-2" controlId="formMfg">
+              <Form.Label>Type</Form.Label>
+              <Form.Control
+                as="select"
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option>Choose a brand</option>
+                <option>Distance</option>
+                <option>Fairway</option>
+                <option>Midrange</option>
+                <option>Putter</option>
+              </Form.Control>
             </Form.Group>
 
             <Form.Group
@@ -188,6 +205,7 @@ export function Discs() {
           <Accordion.Body>Glide: {disc.glide}</Accordion.Body>
           <Accordion.Body>Turn: {disc.turn}</Accordion.Body>
           <Accordion.Body>Fade: {disc.fade}</Accordion.Body>
+          <Accordion.Body>Type: {disc.type}</Accordion.Body>
         </Accordion.Item>
       </Accordion>
     ));
@@ -205,6 +223,9 @@ export function Discs() {
           onClick={() => handleShow()}
         >
           Add Disc
+        </button>
+        <button className={styles.button} onClick={() => navigate("/login")}>
+          Log Out
         </button>
         {renderAddDiscModal()}
       </div>

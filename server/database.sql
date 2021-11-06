@@ -38,3 +38,37 @@ CREATE TABLE bag_items(
     notes TEXT,
     last_modified DATE NOT NULL DEFAULT CURRENT_DATE
 );
+
+ALTER TABLE bags
+ADD CONSTRAINT fk_user
+FOREIGN KEY (user_id)
+REFERENCES users(user_id)
+ON DELETE CASCADE;
+
+ALTER TABLE bag_items
+ADD CONSTRAINT fk_bag
+FOREIGN KEY (bag_id)
+REFERENCES bags(bag_id)
+ON DELETE CASCADE;
+
+ALTER TABLE discs
+ADD COLUMN "type" VARCHAR(255);
+
+UPDATE discs
+SET "type" = 'Putter'
+WHERE speed < 4;
+
+UPDATE discs
+SET "type" = 'Distance'
+WHERE speed > 9;
+
+UPDATE discs
+SET "type" = 'Fairway'
+WHERE speed <= 9 and speed>6;
+
+UPDATE discs
+SET "type" = 'Midrange'
+WHERE speed >= 4 and speed<=6;
+
+ALTER TABLE discs
+ALTER COLUMN "type" SET NOT NULL;

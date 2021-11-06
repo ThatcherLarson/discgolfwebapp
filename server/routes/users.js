@@ -13,7 +13,9 @@ app.use(express.json());
 //create user
 app.post("/users", async (req, res) => {
   try {
-    const { name, email, salt, pass } = req.body;
+    const { name, email, pass } = req.body;
+
+    //figure out salt and bcrypt here
 
     console.log(req.body);
 

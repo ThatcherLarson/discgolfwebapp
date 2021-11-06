@@ -2,9 +2,34 @@ import React from "react";
 import Login from "./Login";
 import { Card, Form, Button, Stack } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Register() {
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
+  const [pass, setPass] = useState();
+
   let navigate = useNavigate();
+
+  const handleRegister = async () => {
+    try {
+
+      //register user
+      const body = { email, name, pass };
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -24,8 +49,8 @@ function Register() {
             <Form.Group
               class="pt-3"
               controlId="formKeywords"
-              //value={searchFilter}
-              //onChange={(e) => dispatch(setSearchFilter(e.target.value))}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             >
               <Form.Label>Email</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -40,8 +65,8 @@ function Register() {
             <Form.Group
               class="pt-3"
               controlId="formKeywords"
-              //value={searchFilter}
-              //onChange={(e) => dispatch(setSearchFilter(e.target.value))}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             >
               <Form.Label>Name</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -56,8 +81,8 @@ function Register() {
             <Form.Group
               class="pt-3"
               controlId="formKeywords"
-              //value={searchFilter}
-              //onChange={(e) => dispatch(setSearchFilter(e.target.value))}
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
             >
               <Form.Label>Password</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -71,7 +96,9 @@ function Register() {
           </Form>
           <br />
           <Stack direction="horizontal" gap={3}>
-            <Button variant="secondary">Register</Button>
+            <Button variant="secondary" onClick={() => handleRegister()}>
+              Register
+            </Button>
             <div className="vr" />
             <Button variant="outline-danger" onClick={() => navigate("/login")}>
               Back

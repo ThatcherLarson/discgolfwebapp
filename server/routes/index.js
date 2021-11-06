@@ -21,13 +21,13 @@ app.get("/discs", async (req, res) => {
 //add a disc
 app.post("/discs", async (req, res) => {
   try {
-    const { brand, mold, speed, glide, turn, fade } = req.body;
+    const { brand, mold, type, speed, glide, turn, fade } = req.body;
 
     console.log(req.body);
 
     const newDisc = await pool.query(
-      "INSERT INTO discs (brand, mold, speed, glide, turn, fade) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
-      [brand, mold, speed, glide, turn, fade]
+      "INSERT INTO discs (brand, mold, type, speed, glide, turn, fade) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [brand, mold, type, speed, glide, turn, fade]
     );
     //res.sendStatus(200)
     res.json(newDisc.rows);
@@ -54,11 +54,11 @@ app.get("/discs/:disc_id", async (req, res) => {
 app.put("/discs/:disc_id", async (req, res) => {
   try {
     const { disc_id } = req.params;
-    const { brand, mold, speed, glide, fade, turn } = req.body;
+    const { brand, mold, type, speed, glide, fade, turn } = req.body;
 
     const updateDisc = await pool.query(
-      "UPDATE discs SET brand = $1, mold = $2, speed = $3, glide = $4, turn = $5, fade = $6 WHERE disc_id = $7",
-      [brand, mold, speed, glide, turn, fade, disc_id]
+      "UPDATE discs SET brand = $1, mold = $2, type= $3, speed = $4, glide = $5, turn = $6, fade = $7 WHERE disc_id = $7",
+      [brand, mold, type, speed, glide, turn, fade, disc_id]
     );
     res.send("Updated Disc: " + brand + " " + mold);
   } catch (error) {
