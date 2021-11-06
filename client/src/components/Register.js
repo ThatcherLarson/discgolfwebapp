@@ -13,7 +13,6 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-
       //register user
       const body = { email, name, pass };
       const response = await fetch("http://localhost:5000/users", {
@@ -23,7 +22,6 @@ function Register() {
         },
         body: JSON.stringify(body),
       });
-
 
       navigate("/login");
     } catch (error) {

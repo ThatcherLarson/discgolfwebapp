@@ -3,9 +3,37 @@ import Register from "./Register";
 import Home from "./Home";
 import { Card, Form, Button, Stack } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Login() {
   let navigate = useNavigate();
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleLogin = async () => {
+    try {
+      // post call to /users/login to auth user
+      const body = { email, password };
+      const response = await fetch("http://localhost:5000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (response.status === 200) {
+        navigate("/home");
+      } else if (response.status === 400) {
+        alert("Incorrect username or password");
+      } else {
+        alert("Error logging in. User may not exist.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -25,8 +53,8 @@ function Login() {
             <Form.Group
               class="pt-3"
               controlId="formKeywords"
-              //value={searchFilter}
-              //onChange={(e) => dispatch(setSearchFilter(e.target.value))}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             >
               <Form.Label>Email</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -41,8 +69,8 @@ function Login() {
             <Form.Group
               class="pt-3"
               controlId="formKeywords"
-              //value={searchFilter}
-              //onChange={(e) => dispatch(setSearchFilter(e.target.value))}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             >
               <Form.Label>Password</Form.Label>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -56,8 +84,8 @@ function Login() {
           </Form>
           <br />
           <Stack direction="horizontal" gap={3}>
-            <Button variant="secondary" onClick={() => navigate("/home")}>
-              Submit
+            <Button variant="secondary" onClick={() => handleLogin()}>
+              Log in
             </Button>
             <div className="vr" />
             <Button
@@ -66,7 +94,6 @@ function Login() {
             >
               Register
             </Button>
-            {/* <Link to="/register">Register</Link> */}
           </Stack>
         </Card.Body>
       </Card>

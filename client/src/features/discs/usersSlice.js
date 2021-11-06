@@ -5,6 +5,7 @@ const initialState = {
   usersList: [],
 };
 
+//placeholder
 export const usersSlice = createSlice({
   name: "users",
   initialState,
