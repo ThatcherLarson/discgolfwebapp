@@ -41,16 +41,13 @@ router.post("/bags", async (req, res) => {
 router.delete("/bags/:bag_id", async (req, res) => {
   try {
     const { bag_id } = req.params;
-    const deleteBag = await pool.query(
-      "DELETE FROM bags WHERE bag_id = $1",
-      [disc_id]
-    );
+    const deleteBag = await pool.query("DELETE FROM bags WHERE bag_id = $1", [
+      disc_id,
+    ]);
     res.json("Disc deleted");
   } catch (error) {
     console.error(error.message);
   }
 });
-
-
 
 module.exports = router;

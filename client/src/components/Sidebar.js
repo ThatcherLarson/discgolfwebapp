@@ -47,7 +47,7 @@ export function Sidebar() {
   };
 
   return (
-    <div>
+    <div className="pt-5">
       <Card>
         <Card.Body>
           <Card.Title class="text-center">

@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Accordion, Button, Modal, Form } from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import {
+  Accordion,
+  Button,
+  Modal,
+  Form,
+  Container,
+  Row,
+  Col,
+  Stack,
+} from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import {
   addDisc,
   removeDisc,
   getDiscs,
   stateSelector,
   discsFilterSelector,
+  numDiscsSelector,
 } from "./discsSlice";
 import styles from "./Discs.module.css";
 
@@ -28,6 +38,7 @@ export function Discs() {
   const handleShow = () => setShow(true);
 
   const discsList = useSelector(discsFilterSelector);
+  const numDiscs = discsList.length; // TODO: support pagination
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -36,6 +47,14 @@ export function Discs() {
   useEffect(() => {
     dispatch(fetchDiscs());
   }, [dispatch]);
+
+  const handleEdit = async (e) => {
+    e.stopPropagation();
+  };
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+  };
 
   const handleSaveClose = async () => {
     try {
@@ -197,9 +216,25 @@ export function Discs() {
       <Accordion>
         <Accordion.Item eventKey={disc.disc_id}>
           <Accordion.Header>
-            <strong>
-              {disc.brand} {disc.mold}
-            </strong>
+            <Container fluid>
+              <Row>
+                <Col>
+                  <h3>
+                    {disc.brand} {disc.mold}
+                  </h3>
+                </Col>
+                <Col md={{ span: 3, offset: 3 }}>
+                  <Stack direction="horizontal" gap={3}>
+                    <Button variant="primary" onClick={(e) => handleEdit(e)}>
+                      Edit
+                    </Button>
+                    <Button variant="danger" onClick={(e) => handleDelete(e)}>
+                      Delete
+                    </Button>
+                  </Stack>
+                </Col>
+              </Row>
+            </Container>
           </Accordion.Header>
           <Accordion.Body>Speed: {disc.speed}</Accordion.Body>
           <Accordion.Body>Glide: {disc.glide}</Accordion.Body>
@@ -230,6 +265,7 @@ export function Discs() {
         {renderAddDiscModal()}
       </div>
       {renderDiscs()}
+      Filtered number of Discs: {numDiscs}
     </div>
   );
 }
