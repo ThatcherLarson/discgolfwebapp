@@ -1,17 +1,16 @@
-// for eventual user routes
-
 const express = require("express");
 const pool = require("./db");
 const router = express.Router();
-//const app = express();
 const port = 5000;
 
 //password encryption
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
+// auth
+const jwt = require("jsonwebtoken");
+
 var cors = require("cors");
-const app = require("../app");
 
 router.use(cors());
 router.use(express.json());

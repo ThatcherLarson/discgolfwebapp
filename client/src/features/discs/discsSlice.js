@@ -21,16 +21,21 @@ export const discsSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     addDisc: (state, action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
       state.discsList.push(action.payload);
       console.log("Added a disc: " + action.payload);
     },
     removeDisc: (state, action) => {
-      console.log("Removed a disc!");
-      return state.discsList.filter((disc) => disc.id !== action.payload);
+      console.log("Removed a disc!: " + action.payload);
+      state.discsList = state.discsList.filter(
+        (disc) => disc.disc_id !== action.payload
+      );
+    },
+    updateDisc: (state, action) => {
+      console.log("Updated a disc!: " + action.payload);
+      // TODO: test this logic, will likely require changes
+      state.discsList = state.discsList.map((disc) =>
+        disc.disc_id === action.payload.disc_id ? action.payload : disc
+      );
     },
     getDiscs: (state, action) => {
       console.log("Getting list of Discs");
@@ -121,8 +126,11 @@ export const discsFilterSelector = (state) => {
   const manufacturer = manufacturerSelector(state);
   const searchFilter = searchFilterSelector(state);
 
+  console.log("what is happening here.. " + typeof discs);
+
   if (manufacturer !== "" && manufacturer !== "Choose a brand") {
     // figure out a better way to do this or switch brand to be a text entry like search
+
     return discs.filter(
       (disc) =>
         disc.speed >= minSpeed &&

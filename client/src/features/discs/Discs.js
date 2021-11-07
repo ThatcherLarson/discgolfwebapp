@@ -48,12 +48,44 @@ export function Discs() {
     dispatch(fetchDiscs());
   }, [dispatch]);
 
-  const handleEdit = async (e) => {
+  const handleEdit = async (e, id) => {
     e.stopPropagation();
+    try {
+      const body = { brand, mold, type, speed, glide, turn, fade };
+      const response = await fetch("http://localhost:5000/discs" + id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (response.status === 400) {
+        console.log("Error updating discs");
+      } else {
+        const data = await response.json();
+
+        console.log(data[0]);
+        //dispatch(addDisc(data[0])); //TODO: write updateDisc reducer
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleDelete = async (e) => {
+  const handleDelete = async (e, id) => {
     e.stopPropagation();
+    try {
+      const response = await fetch("http://localhost:5000/discs/" + id, {
+        method: "DELETE",
+      });
+      if (response.status === 200) {
+        console.log(id)
+        dispatch(removeDisc(id)); //TODO: throws error currently, fix this
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSaveClose = async () => {
@@ -225,10 +257,16 @@ export function Discs() {
                 </Col>
                 <Col md={{ span: 3, offset: 3 }}>
                   <Stack direction="horizontal" gap={3}>
-                    <Button variant="primary" onClick={(e) => handleEdit(e)}>
+                    <Button
+                      variant="primary"
+                      onClick={(e) => handleEdit(e, disc.disc_id)}
+                    >
                       Edit
                     </Button>
-                    <Button variant="danger" onClick={(e) => handleDelete(e)}>
+                    <Button
+                      variant="danger"
+                      onClick={(e) => handleDelete(e, disc.disc_id)}
+                    >
                       Delete
                     </Button>
                   </Stack>
