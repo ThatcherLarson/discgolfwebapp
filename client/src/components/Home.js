@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 
 class Home extends React.Component {
   render() {
+    //TODO: add navigation bar
     return (
       <div>
         <div class="container-fluid no-padding">

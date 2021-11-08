@@ -8,8 +8,8 @@ var cors = require("cors");
 router.use(cors());
 router.use(express.json());
 
-//get all discs
-router.get("/discs", async (req, res) => {
+//get all bags
+router.get("/", async (req, res) => {
   try {
     const allDiscs = await pool.query("SELECT * FROM discs");
     res.json(allDiscs.rows);
@@ -18,8 +18,8 @@ router.get("/discs", async (req, res) => {
   }
 });
 
-//add bag for user
-router.post("/bags", async (req, res) => {
+//add a bag (on register)
+router.post("/", async (req, res) => {
   try {
     const { user_id } = req.body;
 
@@ -38,7 +38,7 @@ router.post("/bags", async (req, res) => {
 });
 
 //remove a bag
-router.delete("/bags/:bag_id", async (req, res) => {
+router.delete("/:bag_id", async (req, res) => {
   try {
     const { bag_id } = req.params;
     const deleteBag = await pool.query("DELETE FROM bags WHERE bag_id = $1", [

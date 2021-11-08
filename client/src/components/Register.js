@@ -22,8 +22,29 @@ function Register() {
         },
         body: JSON.stringify(body),
       });
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log(data[0].user_id);
+        createBag(data[0].user_id);
+      }
 
       navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //TODO: test this function
+  const createBag = async (id) => {
+    try {
+      const body = { id };
+      const response = await fetch("http://localhost:5000/bags", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
     } catch (error) {
       console.error(error);
     }

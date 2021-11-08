@@ -7,7 +7,7 @@ const port = 5000;
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-// auth
+// TODO: JWT auth
 const jwt = require("jsonwebtoken");
 
 var cors = require("cors");
