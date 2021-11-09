@@ -24,6 +24,11 @@ function Login() {
       });
 
       if (response.status === 200) {
+
+        // TODO: store token in localStorage
+        const data = await response.json();
+        localStorage.setItem("token", data[0].token) 
+
         navigate("/home");
       } else if (response.status === 400) {
         alert("Incorrect username or password");

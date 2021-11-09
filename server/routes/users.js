@@ -9,6 +9,8 @@ const saltRounds = 10;
 
 // TODO: JWT auth
 const jwt = require("jsonwebtoken");
+const jwtKey = "my_secret_key"
+const jwtExpirySeconds = 60*60 //1 hour
 
 var cors = require("cors");
 
@@ -69,6 +71,15 @@ router.post("/login", async (req, res) => {
     if (userData) {
       const validPassword = await bcrypt.compare(password, pass);
       if (validPassword) {
+
+        //test token generate
+        token = generateAccessToken(userData)
+
+        res.json({
+          user: userData,
+          token: token
+        })
+
         res.status(200).json({ message: "Valid password" });
       } else {
         res.status(400).json({ error: "Invalid Password" });
@@ -112,5 +123,29 @@ router.delete("/:user_id", async (req, res) => {
     console.error(error.message);
   }
 });
+
+//TODO: Finish this function, add to routes
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {
+    if (err) {
+      res.sendStatus(403)
+    }
+  });
+}
+
+function generateAccessToken(user) {
+  var u = {
+    user_id: user.user_id,
+    name: user.name,
+    email: user.email,
+  }
+
+  return jwt.sign(u, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+}
 
 module.exports = router;
