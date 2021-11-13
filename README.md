@@ -7,3 +7,4 @@ Some Frameworks/Libraries utilized:
 * React Router
 * Redux
 * bcrypt
+* jwt (JSON web tokens)

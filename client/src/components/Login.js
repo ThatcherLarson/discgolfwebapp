@@ -27,7 +27,8 @@ function Login() {
 
         // TODO: store token in localStorage
         const data = await response.json();
-        localStorage.setItem("token", data[0].token) 
+        localStorage.setItem("token", data.token) 
+        console.log(data.token)
 
         navigate("/home");
       } else if (response.status === 400) {
@@ -51,12 +52,12 @@ function Login() {
     >
       <Card>
         <Card.Body>
-          <Card.Title style={{ fontSize: "36px" }} class="text-center">
+          <Card.Title style={{ fontSize: "36px" }} className="text-center">
             <strong>Sign in</strong>
           </Card.Title>
           <Form>
             <Form.Group
-              class="pt-3"
+              className="pt-3"
               controlId="formKeywords"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -72,7 +73,7 @@ function Login() {
             </Form.Group>
 
             <Form.Group
-              class="pt-3"
+              className="pt-3"
               controlId="formKeywords"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

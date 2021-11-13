@@ -10,6 +10,8 @@ var discsRouter = require("./routes/discs");
 var usersRouter = require("./routes/users");
 var bagsRouter = require("./routes/bags");
 
+const dotenv = require('dotenv').config()
+
 var app = express();
 
 app.use(cors());

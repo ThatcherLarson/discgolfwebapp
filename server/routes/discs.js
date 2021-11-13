@@ -5,6 +5,9 @@ const app = express();
 const port = 5000;
 var cors = require("cors");
 
+const jwt = require("jsonwebtoken");
+const {authenticateToken} = require('./auth')
+
 router.use(cors());
 router.use(express.json());
 
@@ -19,7 +22,7 @@ router.get("/", async (req, res) => {
 });
 
 //add a disc
-router.post("/", async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   try {
     const { brand, mold, type, speed, glide, turn, fade } = req.body;
 
@@ -51,7 +54,7 @@ router.get("/:disc_id", async (req, res) => {
 });
 
 //update a disc
-router.put("/:disc_id", async (req, res) => {
+router.put("/:disc_id", authenticateToken, async (req, res) => {
   try {
     const { disc_id } = req.params;
     const { brand, mold, type, speed, glide, fade, turn } = req.body;
@@ -67,7 +70,7 @@ router.put("/:disc_id", async (req, res) => {
 });
 
 //remove a disc
-router.delete("/:disc_id", async (req, res) => {
+router.delete("/:disc_id", authenticateToken, async (req, res) => {
   try {
     const { disc_id } = req.params;
     const deleteTodo = await pool.query(
@@ -79,5 +82,6 @@ router.delete("/:disc_id", async (req, res) => {
     console.error(error.message);
   }
 });
+
 
 module.exports = router;

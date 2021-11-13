@@ -50,12 +50,12 @@ export function Sidebar() {
     <div className="pt-5">
       <Card>
         <Card.Body>
-          <Card.Title class="text-center">
+          <Card.Title className="text-center">
             <strong>Search and Filter</strong>
           </Card.Title>
           <Form>
             <Form.Group
-              class="pt-2"
+              className="pt-2"
               controlId="formKeywords"
               value={searchFilter}
               onChange={(e) => dispatch(setSearchFilter(e.target.value))}
@@ -70,7 +70,7 @@ export function Sidebar() {
               </div>
             </Form.Group>
 
-            <Form.Group class="pt-2" controlId="formMfg">
+            <Form.Group className="pt-2" controlId="formMfg">
               <Form.Label>Manufacturer</Form.Label>
               <Form.Control
                 as="select"
@@ -84,7 +84,7 @@ export function Sidebar() {
               </Form.Control>
             </Form.Group>
 
-            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minSpeed"
                 onChange={(e) => dispatch(setMinSpeed(e.target.value))}
@@ -120,7 +120,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minGlide"
                 onChange={(e) => dispatch(setMinGlide(e.target.value))}
@@ -156,7 +156,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minTurn"
                 onChange={(e) => dispatch(setMinTurn(e.target.value))}
@@ -192,7 +192,7 @@ export function Sidebar() {
               </Form.Group>
             </div>
 
-            <div class="pt-2" style={{ display: "flex", flexDirection: "row" }}>
+            <div className="pt-2" style={{ display: "flex", flexDirection: "row" }}>
               <Form.Group
                 controlId="minFade"
                 onChange={(e) => dispatch(setMinFade(e.target.value))}

@@ -61,12 +61,12 @@ function Register() {
     >
       <Card>
         <Card.Body>
-          <Card.Title style={{ fontSize: "36px" }} class="text-center">
+          <Card.Title style={{ fontSize: "36px" }} className="text-center">
             <strong>Register</strong>
           </Card.Title>
           <Form>
             <Form.Group
-              class="pt-3"
+              className="pt-3"
               controlId="formKeywords"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -82,7 +82,7 @@ function Register() {
             </Form.Group>
 
             <Form.Group
-              class="pt-3"
+              className="pt-3"
               controlId="formKeywords"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -98,7 +98,7 @@ function Register() {
             </Form.Group>
 
             <Form.Group
-              class="pt-3"
+              className="pt-3"
               controlId="formKeywords"
               value={pass}
               onChange={(e) => setPass(e.target.value)}

@@ -50,15 +50,23 @@ export function Discs() {
 
   const handleEdit = async (e, id) => {
     e.stopPropagation();
+    const token = localStorage.getItem("token");
+    console.log("user token: " + token);
+    const bearer = "Bearer " + token;
     try {
       const body = { brand, mold, type, speed, glide, turn, fade };
       const response = await fetch("http://localhost:5000/discs" + id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: bearer
         },
         body: JSON.stringify(body),
       });
+
+      if (response.status === 403) {
+        alert("Invalid user token")
+      }
 
       if (response.status === 400) {
         console.log("Error updating discs");
@@ -73,15 +81,26 @@ export function Discs() {
     }
   };
 
+  //TODO: add roles so only admins can delete, add, edit discs
   const handleDelete = async (e, id) => {
     e.stopPropagation();
+    const token = localStorage.getItem("token");
+    console.log("user token: " + token);
+    const bearer = "Bearer " + token;
     try {
       const response = await fetch("http://localhost:5000/discs/" + id, {
         method: "DELETE",
+        headers: {
+          Authorization: bearer,
+        },
       });
       if (response.status === 200) {
-        console.log(id)
-        dispatch(removeDisc(id)); //TODO: throws error currently, fix this
+        console.log(id);
+        dispatch(removeDisc(id)); 
+      }
+
+      if (response.status === 403) {
+        alert("Invalid user token")
       }
     } catch (error) {
       console.error(error);
@@ -90,15 +109,24 @@ export function Discs() {
 
   const handleSaveClose = async () => {
     try {
+      const token = localStorage.getItem("token");
+      console.log("user token: " + token);
+      const bearer = "Bearer " + token;
       const body = { brand, mold, type, speed, glide, turn, fade };
       const response = await fetch("http://localhost:5000/discs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: bearer
         },
         body: JSON.stringify(body),
       });
       console.log(response);
+
+      if (response.status === 403) {
+        alert("Invalid user token")
+      }
+
       if (response.status === 400) {
         console.log("Disc already exists or not all fields are filled out.");
       } else {
@@ -245,7 +273,7 @@ export function Discs() {
 
   const renderDiscs = () => {
     return discsList.map((disc) => (
-      <Accordion>
+      <Accordion key={disc.disc_id}>
         <Accordion.Item eventKey={disc.disc_id}>
           <Accordion.Header>
             <Container fluid>
