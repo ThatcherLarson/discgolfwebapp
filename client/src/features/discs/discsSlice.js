@@ -87,6 +87,7 @@ export const discsSlice = createSlice({
 export const {
   addDisc,
   removeDisc,
+  updateDisc,
   getDiscs,
   setMinSpeed,
   setMaxSpeed,

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import {
   addDisc,
   removeDisc,
+  updateDisc,
   getDiscs,
   stateSelector,
   discsFilterSelector,
@@ -48,8 +49,30 @@ export function Discs() {
     dispatch(fetchDiscs());
   }, [dispatch]);
 
-  const handleEdit = async (e, id) => {
+  const handleLogout = () => {
+    localStorage.clear()
+    navigate("/login")
+  }
+
+  const handleEdit = async (e, disc) => {
     e.stopPropagation();
+
+    console.log(disc);
+
+    //need to figure out synchronous state update
+    setBrand(disc.brand);
+    setMold(disc.mold);
+    setSpeed(disc.speed);
+    setGlide(disc.glide);
+    setTurn(disc.turn);
+    setFade(disc.fade);
+
+    handleShow(); // reuse same model as adding a disc
+    console.log("disc id? " + disc.disc_id);
+    //submit edit with id
+  };
+
+  const submitEdit = async (id) => {
     const token = localStorage.getItem("token");
     console.log("user token: " + token);
     const bearer = "Bearer " + token;
@@ -59,13 +82,13 @@ export function Discs() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: bearer
+          Authorization: bearer,
         },
         body: JSON.stringify(body),
       });
 
       if (response.status === 403) {
-        alert("Invalid user token")
+        alert("Invalid user token");
       }
 
       if (response.status === 400) {
@@ -74,7 +97,7 @@ export function Discs() {
         const data = await response.json();
 
         console.log(data[0]);
-        //dispatch(addDisc(data[0])); //TODO: write updateDisc reducer
+        dispatch(updateDisc(data[0])); //TODO: test updateDisc reducer
       }
     } catch (error) {
       console.error(error);
@@ -96,18 +119,23 @@ export function Discs() {
       });
       if (response.status === 200) {
         console.log(id);
-        dispatch(removeDisc(id)); 
+        dispatch(removeDisc(id));
       }
 
       if (response.status === 403) {
-        alert("Invalid user token")
+        alert("Invalid user token");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  //TODO: figure out how to determine if we are in context of edit or adding a disc
   const handleSaveClose = async () => {
+    submitNewDisc();
+  };
+
+  const submitNewDisc = async () => {
     try {
       const token = localStorage.getItem("token");
       console.log("user token: " + token);
@@ -117,14 +145,14 @@ export function Discs() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: bearer
+          Authorization: bearer,
         },
         body: JSON.stringify(body),
       });
       console.log(response);
 
       if (response.status === 403) {
-        alert("Invalid user token")
+        alert("Invalid user token");
       }
 
       if (response.status === 400) {
@@ -287,7 +315,7 @@ export function Discs() {
                   <Stack direction="horizontal" gap={3}>
                     <Button
                       variant="primary"
-                      onClick={(e) => handleEdit(e, disc.disc_id)}
+                      onClick={(e) => handleEdit(e, disc)}
                     >
                       Edit
                     </Button>
@@ -325,7 +353,7 @@ export function Discs() {
         >
           Add Disc
         </button>
-        <button className={styles.button} onClick={() => navigate("/login")}>
+        <button className={styles.button} onClick={() => handleLogout()}>
           Log Out
         </button>
         {renderAddDiscModal()}
