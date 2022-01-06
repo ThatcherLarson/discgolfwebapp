@@ -39,7 +39,7 @@ export function Discs() {
   const handleShow = () => setShow(true);
 
   const discsList = useSelector(discsFilterSelector);
-  const numDiscs = discsList.length; // TODO: support pagination
+  const numDiscs = discsList.length; // TODO: support pagination, e.g. on page 2 show items: (n-1) * items per page through n * items per page, == 20 to 40
 
   const dispatch = useDispatch();
   let navigate = useNavigate();

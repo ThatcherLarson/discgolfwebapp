@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import MyBag from "./components/MyBag";
 
 //react-router learning in progress
 ReactDOM.render(
@@ -21,6 +22,7 @@ ReactDOM.render(
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="home" element={<Home />} />
+          <Route path="mybag" element={<MyBag />} />
         </Routes>
       </Provider>
     </React.StrictMode>
