@@ -353,9 +353,6 @@ export function Discs() {
         >
           Add Disc
         </button>
-        <button className={styles.button} onClick={() => handleLogout()}>
-          Log Out
-        </button>
         {renderAddDiscModal()}
       </div>
       {renderDiscs()}
