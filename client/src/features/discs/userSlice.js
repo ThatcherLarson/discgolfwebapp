@@ -8,11 +8,11 @@ const initialState = {
 
 //placeholder - need to decide what states we want to keep here
 export const userSlice = createSlice({
-  name: "users",
+  name: "user",
   initialState,
   reducers: {
     addUser: (state, action) => {
-      state.userInfo.push(action.payload);
+      state.userInfo = action.payload;
       console.log("Added user: " + action.payload);
     },
   },
@@ -20,6 +20,6 @@ export const userSlice = createSlice({
 
 export const { addUser } = userSlice.actions;
 
-export const stateSelector = (state) => state.users;
+export const userStateSelector = (state) => state.user.userInfo;
 
 export default userSlice.reducer;

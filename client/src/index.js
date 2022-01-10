@@ -5,6 +5,7 @@ import App from "./App";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import Profile from "./components/Profile";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -23,6 +24,7 @@ ReactDOM.render(
           <Route path="register" element={<Register />} />
           <Route path="home" element={<Home />} />
           <Route path="mybag" element={<MyBag />} />
+          <Route path="profile" element={<Profile />} />
         </Routes>
       </Provider>
     </React.StrictMode>

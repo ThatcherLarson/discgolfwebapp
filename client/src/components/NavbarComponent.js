@@ -24,7 +24,7 @@ function NavbarComponent() {
               <Nav.Link href="#pricing">Featured Pros</Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link href="#profile">Profile</Nav.Link>
+              <Nav.Link onClick={() => navigate("/profile")}>Profile</Nav.Link>
               <Nav.Link onClick={() => handleLogout()}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>

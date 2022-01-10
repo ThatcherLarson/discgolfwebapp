@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Discs } from "../features/discs/Discs";
 import Sidebar from "../components/Sidebar";
 import NavbarComponent from "../components/NavbarComponent";
@@ -6,7 +6,6 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 
 function Home() {
-  
   //TODO: add navigation bar
   let navigate = useNavigate();
 

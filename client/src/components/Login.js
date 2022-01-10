@@ -4,9 +4,12 @@ import Home from "./Home";
 import { Card, Form, Button, Stack } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addUser } from "../features/discs/userSlice";
 
 function Login() {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -24,11 +27,14 @@ function Login() {
       });
 
       if (response.status === 200) {
-
-        // TODO: store token in localStorage
         const data = await response.json();
-        localStorage.setItem("token", data.token) 
-        console.log(data.token)
+        localStorage.setItem("token", data.token);
+        console.log(data.token);
+
+        //store user info, overwriting any old user
+        localStorage.setItem("user", data.user)
+        console.log(data.user);
+        dispatch(addUser(data.user)); 
 
         navigate("/home");
       } else if (response.status === 400) {

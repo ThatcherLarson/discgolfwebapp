@@ -49,10 +49,12 @@ export function Discs() {
     dispatch(fetchDiscs());
   }, [dispatch]);
 
-  const handleLogout = () => {
-    localStorage.clear()
-    navigate("/login")
-  }
+  //eventual support to add discs to your bag
+  const handleAddToBag = async (e, id) => {
+    e.stopPropagation();
+
+    console.log(id);
+  };
 
   const handleEdit = async (e, disc) => {
     e.stopPropagation();
@@ -324,6 +326,12 @@ export function Discs() {
                       onClick={(e) => handleDelete(e, disc.disc_id)}
                     >
                       Delete
+                    </Button>
+                    <Button
+                      variant="success"
+                      onClick={(e) => handleAddToBag(e, disc.disc_id)}
+                    >
+                      Add to Bag
                     </Button>
                   </Stack>
                 </Col>
